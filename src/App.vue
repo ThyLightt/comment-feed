@@ -79,7 +79,10 @@
           ></textarea>
         </div>
 
-        <button class="btn-create-comment" v-on:click="editingHide = !editingHide">
+        <button
+          class="btn-create-comment"
+          v-on:click="editingHide = !editingHide"
+        >
           <base-icon viewBox="0 0 970 970">
             <svg width="3.5vw" height="3.5vh" viewBox="0 0 24 24">
               <path fill="none" d="M0 0h24v24H0V0z" />
@@ -97,46 +100,42 @@
 export default {
   data() {
     return {
-      record: '',
-      commentInput: '',
-      editInput: '',
+      record: "",
+      commentInput: "",
+      editInput: "",
       itemIndex: null,
       total_comments: 0,
-
-      comment_id: '',
+      comment_id: "",
       editingHide: true,
       comments: [
-        // {
-        //   comment:
-        //     'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the when an unknown printer took a galley of type and scrambled it to make a type specimen book.',
-        //   comment_id: 1,
-        //   user_id: '99dfe588-5574-4cab-8cb5-1ffc288f04cc'
-        // },
-        // {
-        //   comment: '1234567890',
-        //   user_id: '15c',
-        //   comment_id: 2
-        // }
-      ]
+        {
+          comment:
+            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+        },
+        {
+          comment:
+            "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+        },
+      ],
     };
   },
-
   computed: {
-    members() {
-      return this.$store.state.projectData.members;
-    },
     username() {
-      return 'Firstname  Lastname';
+      return "Firstname  Lastname";
     },
     commentDate() {
-      return new Date().toISOString().slice(0, 10) + ' ' + new Date().toISOString().slice(11, 16);
-    }
+      return (
+        new Date().toISOString().slice(0, 10) +
+        " " +
+        new Date().toISOString().slice(11, 16)
+      );
+    },
   },
   methods: {
     getSingleTon: function (comment) {
       return function () {
         return {
-          comment
+          comment,
         };
       };
     },
@@ -145,45 +144,37 @@ export default {
     },
     submit() {
       let comment = this.getSingleTon(this.commentInput);
-
       let old = this.comments;
       let newc = [...old, comment()];
       this.comments = newc;
-      this.commentInput = '';
+      this.commentInput = "";
       this.comments.forEach((item, i) => {
         item.comment_id = i + 1;
       });
-
       this.total_comments = this.comments.length;
     },
-
     remove(index) {
       const removeId = this.comments[index].comment_id;
-
       function removeObjectWithId(arr, comment_id) {
-        const objWithIdIndex = arr.findIndex((obj) => obj.comment_id === comment_id);
-
+        const objWithIdIndex = arr.findIndex(
+          (obj) => obj.comment_id === comment_id
+        );
         arr.splice(objWithIdIndex, 1);
-
         return arr;
       }
-
       removeObjectWithId(this.comments, removeId);
-
       this.total_comments = this.comments.length;
     },
-
     edit(index) {
       this.comment_id = index;
       this.editInput = this.comments[index].comment;
     },
-
     submitEdit() {
       let comment_id = this.comment_id;
       this.comments[comment_id].comment = this.editInput;
-      this.editInput = '';
-    }
-  }
+      this.editInput = "";
+    },
+  },
 };
 </script>
 
@@ -195,65 +186,55 @@ export default {
   left: 50%;
   transform: translate(-50%, -50%);
   width: 70%;
-
-  background-color: #e2fefe;
+  background-color: #99FF99;
   box-shadow: 0 1rem 2rem rgb(0 0 0 / 10%);
   border-radius: 5px;
   display: table;
 }
 .comment-feed {
   padding: 2vw;
-
   border-radius: 10px;
-
   color: #2e2e2e;
   overflow: hidden;
 }
 .comments-list {
   line-height: 2rem;
 }
-
 .username {
-  font-size: 120%;
+  font-size: 110%;
 }
-
 .comment {
   margin-top: -2vh;
   font-size: 92%;
 }
-
 .comment-feed-input-form {
+  font-family: Satoshi, sans-serif;
   left: 100px;
   resize: none;
   height: 5vh;
   width: 100%;
   border: 0;
-  padding: 0.2rem 0 0 0.5rem;
+  padding: 1vh 0 0 1vw;
+  border-radius: 5px;
 }
-
 .comment-feed-comments {
   padding: 5px;
   height: 50vh;
-
   width: 100%;
   overflow-y: auto;
   word-break: break-all;
 }
-
 .comment-feed-create {
   position: relative;
   margin-top: 2vw;
-
   width: 85%;
   left: 2vw;
   bottom: 1.6vh;
 }
-
 .action-btns {
   display: flex;
   flex-direction: row;
 }
-
 .btn-create-comment {
   background-color: transparent;
   position: fixed;
